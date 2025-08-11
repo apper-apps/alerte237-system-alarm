@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-import ApperIcon from "@/components/ApperIcon";
-import Button from "@/components/atoms/Button";
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import ApperIcon from '@/components/ApperIcon'
+import Button from '@/components/atoms/Button'
 import Badge from "@/components/atoms/Badge";
 import Card from "@/components/atoms/Card";
 
@@ -266,7 +266,7 @@ const Community = () => {
                     size="sm"
                     icon="Copy"
                     className="mt-2"
-                    onClick={() => {
+onClick={() => {
                       navigator.clipboard.writeText(hashtag.tag)
                       toast.success('Hashtag copié!')
                     }}
