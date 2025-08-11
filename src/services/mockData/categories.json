@@ -1,0 +1,58 @@
+[
+  {
+    "Id": 1,
+    "name": "Documents perdus",
+    "description": "CNI, passeports, permis de conduire perdus",
+    "icon": "FileX",
+    "color": "#2B7A0B"
+  },
+  {
+    "Id": 2,
+    "name": "Routes dégradées",
+    "description": "Nids de poule, routes endommagées, ponts défaillants",
+    "icon": "Construction",
+    "color": "#F59E0B"
+  },
+  {
+    "Id": 3,
+    "name": "Incendies",
+    "description": "Feux, fumées suspectes, risques d'incendie",
+    "icon": "Flame",
+    "color": "#EF4444"
+  },
+  {
+    "Id": 4,
+    "name": "Urgences médicales",
+    "description": "Accidents, blessés, situations médicales urgentes",
+    "icon": "Stethoscope",
+    "color": "#DC2626"
+  },
+  {
+    "Id": 5,
+    "name": "Sécurité",
+    "description": "Vols, agressions, zones dangereuses",
+    "icon": "Shield",
+    "color": "#3B82F6"
+  },
+  {
+    "Id": 6,
+    "name": "Environnement",
+    "description": "Pollution, déchets, déboisement illégal",
+    "icon": "TreePine",
+    "color": "#22C55E"
+  },
+  {
+    "Id": 7,
+    "name": "Services publics",
+    "description": "Électricité, eau, éclairage public défaillants",
+    "icon": "Building",
+    "color": "#FDB827"
+  },
+  {
+    "Id": 8,
+    "name": "Autres",
+    "description": "Autres problèmes nécessitant attention",
+    "icon": "AlertTriangle",
+    "color": "#6B7280"
+  }
+]
