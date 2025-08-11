@@ -1,6 +1,7 @@
-import React, { forwardRef } from "react"
-import { cn } from "@/utils/cn"
-import ApperIcon from "@/components/ApperIcon"
+import React, { forwardRef } from "react";
+import AppIcon from "@/components/atoms/AppIcon";
+import ApperIcon from "@/components/ApperIcon";
+import { cn } from "@/utils/cn";
 
 const Input = forwardRef(({ 
   type = "text",

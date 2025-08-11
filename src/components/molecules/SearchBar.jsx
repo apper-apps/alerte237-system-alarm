@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import AppIcon from "@/components/atoms/AppIcon";
-import Button from "@/components/atoms/Button";
-import Input from "@/components/atoms/Input";
+import React, { useState } from 'react'
+import AppIcon from '@/components/atoms/AppIcon'
+import Button from '@/components/atoms/Button'
+import Input from '@/components/atoms/Input'
 
 function SearchBar({ onSearch, placeholder = "Search reports...", className = "" }) {
   const [query, setQuery] = useState("")
