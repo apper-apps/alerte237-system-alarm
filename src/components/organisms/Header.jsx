@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import AppIcon from "@/components/atoms/AppIcon";
-import ApperIcon from "@/components/ApperIcon";
-import ThemeToggle from "@/components/molecules/ThemeToggle";
-import Button from "@/components/atoms/Button";
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import ApperIcon from '@/components/ApperIcon'
+import ThemeToggle from '@/components/molecules/ThemeToggle'
+import Button from '@/components/atoms/Button'
 
 const Header = () => {
   const navigate = useNavigate()
