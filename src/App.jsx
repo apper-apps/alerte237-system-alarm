@@ -6,6 +6,7 @@ import ReportForm from "@/components/pages/ReportForm"
 import UserProfile from "@/components/pages/UserProfile"
 import AdminDashboard from "@/components/pages/AdminDashboard"
 import MapView from "@/components/pages/MapView"
+import Community from "@/components/pages/Community"
 import { ThemeProvider } from "@/hooks/useTheme"
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
               <Route path="profile" element={<UserProfile />} />
               <Route path="admin" element={<AdminDashboard />} />
               <Route path="map" element={<MapView />} />
+              <Route path="community" element={<Community />} />
             </Route>
           </Routes>
           

@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import { toast } from "react-toastify"
-import Card from "@/components/atoms/Card"
-import Button from "@/components/atoms/Button"
-import Input from "@/components/atoms/Input"
-import Select from "@/components/atoms/Select"
-import ApperIcon from "@/components/ApperIcon"
-import Loading from "@/components/ui/Loading"
-import Error from "@/components/ui/Error"
-import LocationPicker from "@/components/molecules/LocationPicker"
-import { reportsService } from "@/services/api/reportsService"
-import { categoriesService } from "@/services/api/categoriesService"
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { reportsService } from "@/services/api/reportsService";
+import { categoriesService } from "@/services/api/categoriesService";
+import ApperIcon from "@/components/ApperIcon";
+import LocationPicker from "@/components/molecules/LocationPicker";
+import Loading from "@/components/ui/Loading";
+import Error from "@/components/ui/Error";
+import Select from "@/components/atoms/Select";
+import Button from "@/components/atoms/Button";
+import Card from "@/components/atoms/Card";
+import Input from "@/components/atoms/Input";
 
 const ReportForm = () => {
   const navigate = useNavigate()
@@ -18,8 +18,7 @@ const ReportForm = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [submitting, setSubmitting] = useState(false)
-  
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     title: "",
     description: "",
     category: "",
@@ -27,7 +26,8 @@ const ReportForm = () => {
     longitude: null,
     address: "",
     imageUrl: "",
-    anonymous: false
+    anonymous: false,
+    shareOnSocial: true
   })
   
   const [formErrors, setFormErrors] = useState({})
@@ -111,6 +111,19 @@ const ReportForm = () => {
     setCurrentStep(prev => Math.max(prev - 1, 1))
   }
 
+const handleSocialShare = (platform, reportData) => {
+    const shareText = `🚨 Nouveau signalement Alerte237: ${reportData.title}\n📍 ${reportData.address || 'Localisation GPS'}\n\n#Alerte237 #StopNidsDePoule #Cameroun`
+    const shareUrl = `${window.location.origin}/report/${reportData.Id}`
+    
+    if (platform === 'whatsapp') {
+      window.open(`https://wa.me/?text=${encodeURIComponent(shareText + '\n\n' + shareUrl)}`, '_blank')
+    } else if (platform === 'facebook') {
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`, '_blank')
+    } else if (platform === 'twitter') {
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`, '_blank')
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     
@@ -121,17 +134,27 @@ const ReportForm = () => {
       
       const reportData = {
         ...formData,
-        status: "pending",
-        userId: formData.anonymous ? null : 1 // Mock user ID
+        status: "published", // Changed from "pending" to "published"
+        userId: formData.anonymous ? null : 1,
+        isPublic: true, // Make reports public by default
+        visibility: "community" // Community visibility
       }
       
-      await reportsService.create(reportData)
+      const createdReport = await reportsService.create(reportData)
       
-      toast.success("Signalement créé avec succès !")
+      toast.success("Signalement publié avec succès ! Votre communauté peut maintenant le voir.")
+      
+      // Auto-share on social media if enabled
+      if (formData.shareOnSocial) {
+        setTimeout(() => {
+          handleSocialShare('whatsapp', createdReport)
+        }, 1000)
+      }
+      
       navigate("/profile")
       
     } catch (err) {
-      toast.error("Erreur lors de la création du signalement")
+      toast.error("Erreur lors de la publication du signalement")
     } finally {
       setSubmitting(false)
     }
@@ -164,16 +187,20 @@ const ReportForm = () => {
   }
 
   return (
-    <div className="min-h-screen py-8 px-4 african-pattern">
+<div className="min-h-screen py-8 px-4 african-pattern">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4 font-display">
-            Nouveau signalement
+            Nouveau signalement citoyen
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Aidez votre communauté en signalant les problèmes que vous rencontrez
+            Exposez les problèmes de votre communauté. Votre signalement sera publié publiquement pour créer une pression citoyenne.
           </p>
+          <div className="flex items-center justify-center gap-2 mt-4 text-sm text-primary-600 dark:text-primary-400">
+            <ApperIcon name="Users" size={16} />
+            <span>Plateforme citoyenne indépendante • Transparence garantie</span>
+          </div>
         </div>
 
         {/* Progress Bar */}
@@ -355,7 +382,7 @@ const ReportForm = () => {
                     <ApperIcon name="Send" size={32} className="text-white" />
                   </div>
                   <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 font-display">
-                    {getStepTitle(3)}
+                    Publication & Partage
                   </h2>
                 </div>
 
@@ -408,18 +435,74 @@ const ReportForm = () => {
                   )}
                 </div>
 
+                <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
+                  <div className="flex items-start gap-3">
+                    <ApperIcon name="Users" size={20} className="text-green-500 mt-0.5" />
+                    <div>
+                      <h4 className="font-medium text-green-900 dark:text-green-100 mb-1">
+                        Impact communautaire
+                      </h4>
+                      <ul className="text-sm text-green-700 dark:text-green-300 space-y-1">
+                        <li>• Votre signalement sera publié publiquement sur la carte</li>
+                        <li>• Les médias et ONG locales peuvent le relayer</li>
+                        <li>• La pression citoyenne encourage les solutions</li>
+                        <li>• Vous contribuez à la base de données citoyenne du Cameroun</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
                   <div className="flex items-start gap-3">
-                    <ApperIcon name="Info" size={20} className="text-blue-500 mt-0.5" />
+                    <ApperIcon name="Share2" size={20} className="text-blue-500 mt-0.5" />
                     <div>
                       <h4 className="font-medium text-blue-900 dark:text-blue-100 mb-1">
-                        Que se passe-t-il après ?
+                        Partage sur les réseaux sociaux
                       </h4>
-                      <ul className="text-sm text-blue-700 dark:text-blue-300 space-y-1">
-                        <li>• Votre signalement sera transmis aux autorités compétentes</li>
-                        <li>• Vous recevrez des notifications sur l'évolution du traitement</li>
-                        <li>• Vous pourrez suivre le statut dans votre profil</li>
-                      </ul>
+                      <div className="flex items-center gap-3 mt-3">
+                        <input
+                          type="checkbox"
+                          id="shareOnSocial"
+                          checked={formData.shareOnSocial}
+                          onChange={(e) => handleInputChange("shareOnSocial", e.target.checked)}
+                          className="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500"
+                        />
+                        <label htmlFor="shareOnSocial" className="text-sm text-blue-700 dark:text-blue-300">
+                          Partager automatiquement sur WhatsApp (#Alerte237 #StopNidsDePoule)
+                        </label>
+                      </div>
+                      <div className="flex gap-2 mt-3">
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          icon="MessageCircle"
+                          className="text-green-600 hover:bg-green-100 dark:hover:bg-green-900/20"
+                          onClick={() => handleSocialShare('whatsapp', { title: formData.title, address: formData.address })}
+                        >
+                          WhatsApp
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          icon="Facebook"
+                          className="text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900/20"
+                          onClick={() => handleSocialShare('facebook', { title: formData.title, address: formData.address })}
+                        >
+                          Facebook
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          icon="Twitter"
+                          className="text-sky-600 hover:bg-sky-100 dark:hover:bg-sky-900/20"
+                          onClick={() => handleSocialShare('twitter', { title: formData.title, address: formData.address })}
+                        >
+                          Twitter
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -465,7 +548,7 @@ const ReportForm = () => {
                     variant="primary"
                     icon="Send"
                   >
-                    Envoyer le signalement
+                    Publier le signalement
                   </Button>
                 )}
               </div>

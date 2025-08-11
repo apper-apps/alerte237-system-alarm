@@ -8,10 +8,11 @@ const Header = () => {
   const navigate = useNavigate()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-  const navItems = [
+const navItems = [
     { label: "Accueil", path: "/", icon: "Home" },
     { label: "Signaler", path: "/report", icon: "Plus" },
     { label: "Carte", path: "/map", icon: "Map" },
+    { label: "Communauté", path: "/community", icon: "Users" },
     { label: "Mon Profil", path: "/profile", icon: "User" }
   ]
 
