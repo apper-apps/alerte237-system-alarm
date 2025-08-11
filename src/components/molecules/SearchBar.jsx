@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import Input from "@/components/atoms/Input";
-import Button from "@/components/atoms/Button";
 import AppIcon from "@/components/atoms/AppIcon";
-const SearchBar = ({ 
-  onSearch, 
-  placeholder = "Rechercher...", 
-  className = "" 
-}) => {
+import Button from "@/components/atoms/Button";
+import Input from "@/components/atoms/Input";
+
+function SearchBar({ onSearch, placeholder = "Search reports...", className = "" }) {
   const [query, setQuery] = useState("")
 
   const handleSubmit = (e) => {
