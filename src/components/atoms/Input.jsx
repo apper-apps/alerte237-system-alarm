@@ -1,5 +1,4 @@
 import React, { forwardRef } from "react";
-import AppIcon from "@/components/atoms/AppIcon";
 import ApperIcon from "@/components/ApperIcon";
 import { cn } from "@/utils/cn";
 

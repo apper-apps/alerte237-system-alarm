@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import AppIcon from '@/components/atoms/AppIcon'
-import Button from '@/components/atoms/Button'
-import Input from '@/components/atoms/Input'
+import React, { useState } from "react";
+import ApperIcon from "@/components/ApperIcon";
+import Button from "@/components/atoms/Button";
+import Input from "@/components/atoms/Input";
 
 function SearchBar({ onSearch, placeholder = "Search reports...", className = "" }) {
   const [query, setQuery] = useState("")
@@ -33,7 +33,7 @@ function SearchBar({ onSearch, placeholder = "Search reports...", className = ""
             onClick={handleClear}
 className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
           >
-            <AppIcon name="X" size={16} className="text-gray-400" />
+            <ApperIcon name="X" size={16} className="text-gray-400" />
           </button>
         )}
       </div>
